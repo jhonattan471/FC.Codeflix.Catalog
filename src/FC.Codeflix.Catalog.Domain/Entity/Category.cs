@@ -2,10 +2,10 @@
 
 namespace FC.Codeflix.Catalog.Domain.Entity;
 public class Category
-{   
-    public Guid Id { get; private set; }  
+{
+    public Guid Id { get; private set; }
 
-    public bool  IsActive { get; private set; }
+    public bool IsActive { get; private set; }
 
     public string Name { get; private set; }
 
@@ -18,17 +18,37 @@ public class Category
         Id = Guid.NewGuid();
         Name = name;
         Description = description;
-        IsActive = isActive; 
+        IsActive = isActive;
         CreatedAt = DateTime.Now;
 
         Validate();
     }
 
-    public void Validate()
+    public void Activate()
     {
-        if(String.IsNullOrWhiteSpace(Name))  
-            throw new EntityValidationException($"{nameof(Name)} should not be empty or null");
-        if(Description == null)
-            throw new EntityValidationException($"{nameof(Description)} should not be empty or null");
+        IsActive = true;
+        Validate();
     }
+
+    public void Deactivate()
+    {
+        IsActive = false;
+        Validate();
+    }
+
+    private void Validate()
+    {
+        if (String.IsNullOrWhiteSpace(Name))
+            throw new EntityValidationException($"{nameof(Name)} should not be empty or null");
+        if (Name.Length < 3)
+            throw new EntityValidationException($"{nameof(Name)} should be at least 3 characteres long");
+        if (Name.Length > 255)
+            throw new EntityValidationException($"{nameof(Name)} should be less or equal 255 characteres long");
+        if (Description == null)
+            throw new EntityValidationException($"{nameof(Description)} should not be empty or null");
+        if (Description.Length > 10_000)
+            throw new EntityValidationException($"{nameof(Description)} should be less or equal than 10.000 characteres long");
+    }
+
+ 
 }
