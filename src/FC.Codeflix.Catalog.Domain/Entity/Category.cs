@@ -36,6 +36,13 @@ public class Category
         Validate();
     }
 
+    public void Update(string name, string? description = null)
+    {
+        Name = name;
+        Description = description ?? Description;
+        Validate();
+    }
+
     private void Validate()
     {
         if (String.IsNullOrWhiteSpace(Name))
@@ -50,5 +57,5 @@ public class Category
             throw new EntityValidationException($"{nameof(Description)} should be less or equal than 10.000 characteres long");
     }
 
- 
+
 }
