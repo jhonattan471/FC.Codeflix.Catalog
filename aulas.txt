@@ -1,0 +1,54 @@
+aulas 
+
+
+[X] INTRODUÇÃO
+[X] CÓDIGO FONTE
+[] DOMÍNIO CATEGORIA
+	Refatorando com SeedWork
+	Refatorando testes com fluent assertions
+	Refatorando testes com fixture
+	Melhorando teste do createdAt
+	Refatorando testes com dados randômicos
+	Refatorando testes com dados randômicos e MemberData
+	Domain Validation: NotNull
+	Domain Validation: NotNullOrEmpety
+	Domain Validation: MinLength
+	Domain Validation: MaxLength
+	Refatorando entidade categria usando DomainValidation
+	Cobertura de testes
+	Encerrando o Capítulo 2
+
+[] USE CASES - CATEGORIA
+	Introdução aos Use Case
+	Teste do UseCase CrateCategory
+	Contrato do repository da Categoria
+	Contrado do Unit of Work
+	Implementando o Use Case
+	Refactoring Teste
+	Testando exceptions no use case
+	Utilizando data Generator nos testes
+	Introdução ao MediatR
+	Refatoring do use case com MediatR
+	Teste do use case GetCategory
+	Implementação Use Case GetCategory
+	Refactoring removendo duplicação
+	Teste de Exeption GetCategory
+	Validando input
+	Finalizando Validação do GetCategory
+	Testes do Use Case DeleteCategory
+	implementação use case DeleteCategory
+	Teste do UpdateCategory
+	Implementação do use case UpdateCategory
+	DataGenerator do teste do UpdateCategory
+	Teste do exception de not found do UpdateCategory
+	Campos opcionais UpdateCategory
+	Teste de exceptions de domínio do UpdateCategory
+	Validation do UpdateCategoryInput
+	Teste do use case ListCategories
+	Asserts do teste do use case List Categories
+	Implementando o use case ListCategory
+	Implementando o use case ListCategory parte 2
+	Implementao valores default no ListCategoriesInput
+	Testes ListCategories quando retorna vazio
+	Refactoring das Fixtures
+	Recapitulando
