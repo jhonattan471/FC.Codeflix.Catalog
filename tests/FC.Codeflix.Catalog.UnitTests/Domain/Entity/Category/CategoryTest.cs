@@ -100,15 +100,12 @@ public class CategoryTest
 
         action.Should()
             .Throw<EntityValidationException>()
-            .WithMessage("Description should not be empty or null");
+            .WithMessage("Description should not be null");
     }
 
     [Theory(DisplayName = nameof(InstantieteErrorWhenNameIsLessThan3Characteres))]
     [Trait("Domain", "Category - Aggregates")]
-    [InlineData("a")]
-    [InlineData("ab")]
-    [InlineData("1")]
-    [InlineData("12")]
+    [MemberData(nameof(GetNamesWithLessThan3Characters), parameters:10)]
     public void InstantieteErrorWhenNameIsLessThan3Characteres(string name)
     {
         var validCategory = _categoryTestFixture.getValidCategory();
@@ -118,6 +115,20 @@ public class CategoryTest
         action.Should()
             .Throw<EntityValidationException>()
             .WithMessage("Name should be at least 3 characteres long");
+    }
+
+    public static IEnumerable<object[]> GetNamesWithLessThan3Characters(int numberOfTests)
+    {
+        var fixture = new CategoryTestFixture();
+
+
+        for (int i = 0; i < numberOfTests; i++)
+        {
+            var isOdd = i % 2 == 1;
+            yield return new object[] {
+                fixture.getValidCategoryName()[..(isOdd ? 1 : 2)]
+            };
+        }
     }
 
     [Fact(DisplayName = nameof(InstantieteErrorWhenNameIsGreaterThan255characteres))]
@@ -144,7 +155,7 @@ public class CategoryTest
 
         action.Should()
            .Throw<EntityValidationException>()
-           .WithMessage("Description should be less or equal than 10.000 characteres long");
+           .WithMessage("Description should be less or equal 10000 characteres long");
     }
 
     [Fact(DisplayName = nameof(Activate))]
@@ -185,11 +196,11 @@ public class CategoryTest
     public void update()
     {
         var validEntity = _categoryTestFixture.getValidCategory();
-        var newEntity = new { Name = "New Name", Description = "New Description" };
-        validEntity.Update(newEntity.Name, newEntity.Description);
+        var categoryWithNewValues = _categoryTestFixture.getValidCategory();
+        validEntity.Update(categoryWithNewValues.Name, categoryWithNewValues.Description);
 
-        validEntity.Name.Should().Be("New Name");
-        validEntity.Description.Should().Be("New Description");
+        validEntity.Name.Should().Be(categoryWithNewValues.Name);
+        validEntity.Description.Should().Be(categoryWithNewValues.Description);
     }
 
     [Fact(DisplayName = nameof(updateOnlyName))]
@@ -197,10 +208,11 @@ public class CategoryTest
     public void updateOnlyName()
     {
         var validEntity = _categoryTestFixture.getValidCategory();
-        var newEntity = new { Name = "New Name" };
-        validEntity.Update(newEntity.Name);
+        var newValidName = _categoryTestFixture.getValidCategoryName();
 
-        validEntity.Name.Should().Be(newEntity.Name);
+        validEntity.Update(newValidName);
+
+        validEntity.Name.Should().Be(newValidName);
         validEntity.Description.Should().Be(validEntity.Description);
     }
 
@@ -255,13 +267,21 @@ public class CategoryTest
     [Trait("Domain", "Category - Aggregates")]
     public void UpdateErrorWhenDescriptionIsGreaterThan10_000characteres()
     {
-        var invalidDescription = String.Join(null, Enumerable.Range(1, 10_001).Select(_ => "a").ToArray());
-        var categoryEntity = _categoryTestFixture.getValidCategory();
+        var category = _categoryTestFixture.getValidCategory();
+        //String.Join(null, Enumerable.Range(1, 10_001).Select(_ => "a").ToArray());
+        var invalidDescription = _categoryTestFixture.Faker.Commerce.ProductDescription();
+        while (invalidDescription.Length <= 10_000)
+        {
+            invalidDescription = $"{invalidDescription} {_categoryTestFixture.Faker.Commerce.ProductDescription()}";
+        }
 
-        Action action = () => categoryEntity.Update(categoryEntity.Name, invalidDescription);
+
+        Action action = () => category.Update(_categoryTestFixture.getValidCategoryName(), invalidDescription);
 
         action.Should()
         .Throw<EntityValidationException>()
-        .WithMessage("Description should be less or equal than 10.000 characteres long");
+        .WithMessage("Description should be less or equal 10000 characteres long");
     }
+
+  
 }
