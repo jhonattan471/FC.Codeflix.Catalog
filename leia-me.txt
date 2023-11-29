@@ -1,0 +1,6 @@
+SETUP DO PROJETO 
+
+PARA RODAR O TEST COVERAGE, INSTALE A EXTENSÃO E ESSA LIB
+
+dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.2.0
+
