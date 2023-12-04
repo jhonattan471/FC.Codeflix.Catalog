@@ -19,7 +19,7 @@ aulas
 	x Encerrando o Capítulo 2
 
 [] USE CASES - CATEGORIA
-	Introdução aos Use Case
+	x Introdução aos Use Case
 	Teste do UseCase CrateCategory
 	Contrato do repository da Categoria
 	Contrado do Unit of Work
